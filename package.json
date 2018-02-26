@@ -7,7 +7,7 @@
     "start": "node server.js",
     "collector": "node collector",
     "lint": "eslint .",
-    "migrate": "flyway migrate -url=\"jdbc:mysql://$SCANNER_MYSQL_HOST:$SCANNER_MYSQL_PORT/$SCANNER_MYSQL_DATABASE\" -user=\"$SCANNER_MYSQL_USER\" -password=\"$SCANNER_MYSQL_PASS\" -locations=filesystem:sql-migrations,filesystem:sql-data"
+    "migrate": "flyway migrate -url=\"jdbc:mysql://$CANDLE_COLLECTOR_MYSQL_HOST:$CANDLE_COLLECTOR_MYSQL_PORT/$CANDLE_COLLECTOR_MYSQL_DATABASE\" -user=\"$CANDLE_COLLECTOR_MYSQL_USER\" -password=\"$CANDLE_COLLECTOR_MYSQL_PASS\" -locations=filesystem:sql-migrations,filesystem:sql-data"
   },
   "author": "",
   "license": "ISC",
@@ -22,7 +22,6 @@
     "mysql": "^2.15.0",
     "request": "^2.83.0",
     "socket.io": "^2.0.4",
-    "talib": "^1.0.4",
     "ws": "^4.0.0"
   },
   "devDependencies": {
