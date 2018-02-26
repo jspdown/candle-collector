@@ -11,13 +11,13 @@ function getEnv(name) {
 const config = {
   database: {
     connectionLimit: 100,
-    host: getEnv('SCANNER_MYSQL_HOST'),
-    port: getEnv('SCANNER_MYSQL_PORT'),
-    user: getEnv('SCANNER_MYSQL_USER'),
-    password: getEnv('SCANNER_MYSQL_PASS'),
-    database: getEnv('SCANNER_MYSQL_DATABASE')
+    host: getEnv('CANDLE_COLLECTOR_MYSQL_HOST'),
+    port: getEnv('CANDLE_COLLECTOR_MYSQL_PORT'),
+    user: getEnv('CANDLE_COLLECTOR_MYSQL_USER'),
+    password: getEnv('CANDLE_COLLECTOR_MYSQL_PASS'),
+    database: getEnv('CANDLE_COLLECTOR_MYSQL_DATABASE')
   },
-  port: getEnv('SCANNER_PORT')
+  port: getEnv('CANDLE_COLLECTOR_PORT')
 };
 
 module.exports = config;
