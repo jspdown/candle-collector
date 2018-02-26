@@ -1,0 +1,33 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "collector": "node collector",
+    "lint": "eslint .",
+    "migrate": "flyway migrate -url=\"jdbc:mysql://$SCANNER_MYSQL_HOST:$SCANNER_MYSQL_PORT/$SCANNER_MYSQL_DATABASE\" -user=\"$SCANNER_MYSQL_USER\" -password=\"$SCANNER_MYSQL_PASS\" -locations=filesystem:sql-migrations,filesystem:sql-data"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bignumber.js": "^6.0.0",
+    "bluebird": "^3.5.1",
+    "compose-middleware": "^4.0.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "lodash": "^4.17.5",
+    "moment": "^2.20.1",
+    "mysql": "^2.15.0",
+    "request": "^2.83.0",
+    "socket.io": "^2.0.4",
+    "talib": "^1.0.4",
+    "ws": "^4.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-chai-friendly": "^0.4.1"
+  }
+}
