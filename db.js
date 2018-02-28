@@ -5,12 +5,13 @@ const BigNumber = require('bignumber.js');
 const mysql = require('mysql');
 const { DatabaseError, code } = require('./libs/errors');
 
+let pool = null;
+
 const codes = {
   UNKNOWN_ERROR: code(1, 'Unknown error'),
   CANNOT_CONNECT: code(2, 'Can\'t connect to database'),
   NOT_FOUND: code(3, 'Not Found')
 };
-let pool;
 
 function connect(config) {
   pool = mysql.createPool({
@@ -38,7 +39,7 @@ function _query(query, params) {
   return new Promise((resolve, reject) => pool.getConnection((err, conn) => {
     if (err) return reject(err);
 
-    conn.query(query, params, (error, results, fields) => {
+    return conn.query(query, params, (error, results, fields) => {
       conn.release();
 
       if (error) {
@@ -167,7 +168,7 @@ function getCandles(exchange, timeframe, pair, limit=500) {
     });
 }
 
-function upsertCandle(timeframe, pair, date, candle, id) {
+function upsertCandle(timeframe, pair, date, candle) {
   const query = `
     INSERT INTO candles (
       date, pair_id, timeframe_id,
@@ -185,8 +186,7 @@ function upsertCandle(timeframe, pair, date, candle, id) {
       volume = ?
   `;
 
-  const convertPrice = (price, decimals) =>
-    price.shiftedBy(decimals).toString();
+  const convertPrice = (price, decimals) => price.shiftedBy(decimals).toString();
 
   return Promise.props({
     pair: getPair(pair.exchange, pair.base, pair.quote),

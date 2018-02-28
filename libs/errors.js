@@ -45,10 +45,11 @@ class Err extends Error {
 }
 
 class DatabaseError extends Err {}
+class AmqpError extends Err {}
 
 module.exports = {
   ErrorCode,
-  Err, DatabaseError,
+  Err, DatabaseError, AmqpError,
   code,
   codes: {
     INTERNAL_ERROR:     code(1, 'Internal Error', 500),

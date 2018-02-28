@@ -4,14 +4,17 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "npm run api",
+    "api": "node server.js",
     "collector": "node collector",
+    "consumer:database": "node candle-consumer/database",
     "lint": "eslint .",
     "migrate": "flyway migrate -url=\"jdbc:mysql://$CANDLE_COLLECTOR_MYSQL_HOST:$CANDLE_COLLECTOR_MYSQL_PORT/$CANDLE_COLLECTOR_MYSQL_DATABASE\" -user=\"$CANDLE_COLLECTOR_MYSQL_USER\" -password=\"$CANDLE_COLLECTOR_MYSQL_PASS\" -locations=filesystem:sql-migrations,filesystem:sql-data"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.5.2",
     "bignumber.js": "^6.0.0",
     "bluebird": "^3.5.1",
     "compose-middleware": "^4.0.0",

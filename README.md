@@ -13,6 +13,7 @@ exchange is available: Poloniex.
 
 Prerequisites:
 - NodeJs v8.9.3
+- RabbitMQ 3.6.4
 - MySQL v5.7.21
 - Flyway v5.0.7
 
@@ -24,14 +25,27 @@ export CANDLE_COLLECTOR_MYSQL_PASS=""
 export CANDLE_COLLECTOR_MYSQL_HOST='localhost'
 export CANDLE_COLLECTOR_MYSQL_PORT=3306
 export CANDLE_COLLECTOR_MYSQL_DATABASE='candle_collector'
+
 export CANDLE_COLLECTOR_PORT=8080
+
+export CANDLE_COLLECTOR_AMQP_HOST="localhost"
+export CANDLE_COLLECTOR_AMQP_PORT=5672
+export CANDLE_COLLECTOR_AMQP_USER="guest"
+export CANDLE_COLLECTOR_AMQP_PASS="guest"
 ```
 
 Start the API:
 
 ```bash
-npm start
+// Start API
+npm run api
+// Start candle collector
+npm run collector
+// Start candle-consumers:
+npm run consumer:database
 ```
+
+Or you can start all the services at once using Forever
 
 Start collecting candles:
 

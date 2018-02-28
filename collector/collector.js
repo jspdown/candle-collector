@@ -36,17 +36,7 @@ class Collector {
     let bucket = buckets.find(({ date }) => +date === +startOfBucket);
 
     if (!bucket) {
-      let position = 0;
-
-      // Find position where to insert the new bucket
-      for (let i = buckets.length - 1; i >= 0; i--) {
-        if (+startOfBucket > +buckets[i].date) {
-          position = i;
-          break;
-        }
-      }
-
-      logger.info(`NEW BUCKET[${frame}][${pair}]`, buckets.length, position, startOfBucket.toDate());
+      logger.info(`NEW BUCKET[${frame}][${pair}]`, buckets.length, startOfBucket.toDate());
 
       bucket = {
         id: this.bucketsIds[key]++,
@@ -58,7 +48,15 @@ class Collector {
         volume: trade.amount
       };
 
-      buckets.splice(position, 0, bucket);
+      if (buckets.length) {
+        this.dispatchBucketListeners({
+          exchange,
+          base: trade.base,
+          quote: trade.quote
+        }, timeframe, buckets[buckets.length - 1]);
+      }
+
+      buckets.push(bucket);
       buckets = buckets.slice(-MAX_BUCKETS);
     } else {
       bucket.close = trade.price;
@@ -66,12 +64,6 @@ class Collector {
       bucket.high = trade.price.gt(bucket.high) ? trade.price : bucket.high;
       bucket.volume = bucket.volume.plus(trade.amount);
     }
-
-    this.dispatchBucketListeners({
-      exchange,
-      base: trade.base,
-      quote: trade.quote
-    }, timeframe, bucket);
   }
 
   getBucketDate(timeframe, date) {

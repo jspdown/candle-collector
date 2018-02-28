@@ -1,0 +1,20 @@
+[
+  {
+    "uid": "api",
+    "append": true,
+    "watch": true,
+    "script": "server.js"
+  },
+  {
+    "uid": "collector",
+    "append": true,
+    "watch": true,
+    "script": "./collector/index.js"
+  },
+  {
+    "uid": "consumer.database",
+    "append": true,
+    "watch": true,
+    "script": "./candle-consumers/database.js"
+  }
+]

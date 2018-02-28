@@ -4,9 +4,15 @@ const { Collector } = require('./collector');
 const { Poloniex } = require('./sources/poloniex');
 const logger = require('../libs/logger');
 const db = require('../db');
+const queue = require('../queue');
 const config = require('../config');
 
-db.connect(config.database)
+Promise.all([
+  db.connect(config.database),
+  queue.connect(config.amqp, {
+    exchanges: [{ name: 'new-candle', type: 'fanout' }]
+  })
+])
   .then(() => Promise.all([
     db.getTimeframes(),
     db.getPairs()
@@ -25,21 +31,15 @@ db.connect(config.database)
     sources.forEach(src => src.onTrade((exchange, trade) =>
       collector.push(exchange, trade)
     ));
-    collector.onBucketChange(unsertCandleInDb);
+    collector.onBucketChange((pair, timeframe, bucket) => {
+      console.log('sending new candle');
+      queue.publish('new-candle', { pair, timeframe, bucket });
+    });
 
     logger.info('Collecting trades...');
-  });
+  })
+  .catch(err => logger.error('Fatal error:', err));
 
 function filterPairsByExchange(pairs, exchange) {
   return pairs.filter(pair => pair.exchange === exchange);
-}
-
-let id = 0;
-function unsertCandleInDb(pair, timeframe, bucket) {
-  const timeframeStr = `${timeframe.value}_${timeframe.unit}`;
-  const pairStr = `${pair.base}_${pair.quote}`;
-  const { open, low, high, close, date, volume } = bucket;
-
-  db.upsertCandle(timeframe, pair, date, { open, low, high, close, volume }, id++)
-    .catch(err => logger.error('Cannot update', pair, timeframe, bucket, err));
 }
