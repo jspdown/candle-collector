@@ -41,8 +41,8 @@ Start the API:
 npm run api
 // Start candle collector
 npm run collector
-// Start candle-consumers:
-npm run consumer:database
+// Start workers:
+npm run worker:save-candle
 ```
 
 Or you can start all the services at once using Forever

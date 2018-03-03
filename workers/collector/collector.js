@@ -1,7 +1,7 @@
 'use strict';
 
 const moment = require('moment');
-const logger = require('../libs/logger');
+const logger = require('../../libs/logger');
 
 const MAX_BUCKETS = 100;
 

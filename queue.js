@@ -48,7 +48,8 @@ function connect(config, { exchanges, queues }) {
     })
     .catch(err => {
       if (err instanceof AmqpError) throw err;
-      console.log(err);
+      logger.log(err);
+
       throw new AmqpError(codes.INVALID_TOPOLOGY);
     });
 }

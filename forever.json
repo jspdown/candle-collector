@@ -6,15 +6,15 @@
     "script": "server.js"
   },
   {
-    "uid": "collector",
+    "uid": "worker.collector",
     "append": true,
     "watch": true,
-    "script": "./collector/index.js"
+    "script": "./workers/collector/index.js"
   },
   {
-    "uid": "consumer.database",
+    "uid": "worker.candle-saver",
     "append": true,
     "watch": true,
-    "script": "./candle-consumers/database.js"
+    "script": "./workers/candle-saver/index.js"
   }
 ]

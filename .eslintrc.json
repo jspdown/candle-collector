@@ -35,6 +35,7 @@
     "guard-for-in": "off",
     "no-return-assign": "off",
     "space-infix-ops": "off",
-    "no-multi-assign": "off"
+    "no-multi-assign": "off",
+    "new-cap": "off"
   }
 }

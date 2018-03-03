@@ -1,11 +1,11 @@
 'use strict';
 
 const { Collector } = require('./collector');
-const { Poloniex } = require('./sources/poloniex');
-const logger = require('../libs/logger');
-const db = require('../db');
-const queue = require('../queue');
-const config = require('../config');
+const { Poloniex } = require('../../exchanges/poloniex');
+const logger = require('../../libs/logger');
+const db = require('../../db');
+const queue = require('../../queue');
+const config = require('../../config');
 
 Promise.all([
   db.connect(config.database),
@@ -23,23 +23,16 @@ Promise.all([
     logger.info('PAIRS:');
     pairs.forEach(p => logger.info(`- ${p.base}/${p.quote} (${p.exchange})`));
 
-    const sources = [
-      new Poloniex({ pairs: filterPairsByExchange(pairs, 'poloniex') })
-    ];
+    const exchanges = [new Poloniex({ pairs })];
     const collector = new Collector(timeframes);
 
-    sources.forEach(src => src.onTrade((exchange, trade) =>
-      collector.push(exchange, trade)
-    ));
+    exchanges.forEach(ex =>
+      ex.on('new-trade', trade => collector.push(ex.name, trade))
+    );
     collector.onBucketChange((pair, timeframe, bucket) => {
-      console.log('sending new candle');
       queue.publish('new-candle', { pair, timeframe, bucket });
     });
 
     logger.info('Collecting trades...');
   })
   .catch(err => logger.error('Fatal error:', err));
-
-function filterPairsByExchange(pairs, exchange) {
-  return pairs.filter(pair => pair.exchange === exchange);
-}

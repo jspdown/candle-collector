@@ -6,8 +6,8 @@
   "scripts": {
     "start": "npm run api",
     "api": "node server.js",
-    "collector": "node collector",
-    "consumer:database": "node candle-consumer/database",
+    "worker:collector": "node workers/collector",
+    "worker:candle-saver": "node workers/candle-saver",
     "lint": "eslint .",
     "migrate": "flyway migrate -url=\"jdbc:mysql://$CANDLE_COLLECTOR_MYSQL_HOST:$CANDLE_COLLECTOR_MYSQL_PORT/$CANDLE_COLLECTOR_MYSQL_DATABASE\" -user=\"$CANDLE_COLLECTOR_MYSQL_USER\" -password=\"$CANDLE_COLLECTOR_MYSQL_PASS\" -locations=filesystem:sql-migrations,filesystem:sql-data"
   },
@@ -17,6 +17,7 @@
     "amqplib": "^0.5.2",
     "bignumber.js": "^6.0.0",
     "bluebird": "^3.5.1",
+    "ccxt": "^1.10.1271",
     "compose-middleware": "^4.0.0",
     "cors": "^2.8.4",
     "express": "^4.16.2",

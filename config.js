@@ -23,7 +23,7 @@ const config = {
     port: getEnv('CANDLE_COLLECTOR_AMQP_PORT'),
     username: getEnv('CANDLE_COLLECTOR_AMQP_USER'),
     password: getEnv('CANDLE_COLLECTOR_AMQP_PASS'),
-    vhost: '/',
+    vhost: '/'
   },
   port: getEnv('CANDLE_COLLECTOR_PORT')
 };

@@ -2,10 +2,10 @@
 
 const Promise = require('bluebird');
 const BigNumber = require('bignumber.js');
-const logger = require('../libs/logger');
-const db = require('../db');
-const queue = require('../queue');
-const config = require('../config');
+const logger = require('../../libs/logger');
+const db = require('../../db');
+const queue = require('../../queue');
+const config = require('../../config');
 
 function convertType(bucket) {
   const bigNumbers = ['open', 'low', 'high', 'close', 'volume'];
@@ -15,7 +15,7 @@ function convertType(bucket) {
     if (bigNumbers.includes(prop)) {
       acc[prop] = new BigNumber(bucket[prop]);
     } else if (dates.includes(prop)) {
-      acc[prop] = new Date(bucket.date)
+      acc[prop] = new Date(bucket.date);
     } else {
       acc[prop] = bucket[prop];
     }
